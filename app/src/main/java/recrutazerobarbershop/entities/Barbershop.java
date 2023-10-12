@@ -1,7 +1,9 @@
 package recrutazerobarbershop.entities;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
 
@@ -15,6 +17,10 @@ public class Barbershop {
 	private List<Thread> barberThreadList; /** List of barbers threads */
 
 	public static int tainhaSleepingTime; /** Sergeant Tainha's sleep time */
+
+  public Queue<Customer> officerQueue = new LinkedList<>(); /** Officer Queue */
+	public Queue<Customer> sergeantQueue = new LinkedList<>(); /** Sergeant Queue */
+	public Queue<Customer> corporalQueue = new LinkedList<>(); /** Corporal Queue */
 
 	public static Semaphore customersSemaphore; /** Customer Semaphore */
 	public static Semaphore barbersSemaphore; /** Barbers Semaphore */

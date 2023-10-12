@@ -76,6 +76,36 @@ public class Customer implements Runnable {
 	@Override
 	public void run() {
 		System.out.printf("Um %s [id=%d] chegou na barbearia.\n", cutomerCategory.name(), id);
-		System.out.printf("Um %s [id=%d] saiu da barbearia\n", cutomerCategory.name(), id);
+		
+		this.setStartTime(Instant.now());
+
+    try {
+			Barbershop.mutex.acquire();
+
+			CustomerCategory customerCategory = this.getCutomerCategory();
+
+			if ( customerCategory == CustomerCategory.OFFICER ) {
+				barbershop.officerQueue.add(this);
+			} else if (customerCategory == CustomerCategory.SERGEANT) {
+				barbershop.sergeantQueue.add(this);
+			} else if (customerCategory == CustomerCategory.CORPORAL) {
+				barbershop.corporalQueue.add(this);
+			}
+
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		} finally {
+			Barbershop.mutex.release();
+		}
+
+		Barbershop.barbersSemaphore.release();
+
+		try {
+			Barbershop.customersSemaphore.acquire();
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+
+    System.out.printf("Um %s [id=%d] saiu da barbearia\n", cutomerCategory.name(), id);
 	}
 }
