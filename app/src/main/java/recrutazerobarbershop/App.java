@@ -3,8 +3,12 @@
  */
 package recrutazerobarbershop;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import recrutazerobarbershop.entities.Barbershop;
 import recrutazerobarbershop.entities.Barbershop.BarbershopCase;
+import recrutazerobarbershop.entities.Customer;
 
 public class App {
 
@@ -13,19 +17,21 @@ public class App {
 
   public static void main(String[] args) {
 
-    int time = 0;
+    Scanner scanner = new Scanner(System.in);
+    ArrayList<Customer> customers = new ArrayList<>();
+    int tainhaSleepingTime = 1, id = 0;
 
     for ( int i = 0; i < args.length; i++ ) {
-      if (args[i].equals("--time")) {
+      if (args[i].equals("--tainhaSleepingTime")) {
         if ( i + 1 < args.length ) {
           try {
-            time = Integer.parseInt(args[i + 1]);
+            tainhaSleepingTime = Integer.parseInt(args[i + 1]);
             i++;
           } catch (NumberFormatException e) {
-            System.err.println("Error: The value of --time is not an integer.");
+            System.err.println("Error: The value of --tainhaSleepingTime is not an integer.");
           }
         } else {
-          System.err.println("Error: The --time option requires an integer value.");
+          System.err.println("Error: The --tainhaSleepingTime option requires an integer value.");
         }
       } else if (args[i].equals("--barbershopCase")) {
         if (i + 1 < args.length) {
@@ -41,8 +47,23 @@ public class App {
       }
     }
 
-    System.out.println("Arguments: [time=" + time + "; barbershopCase=" + barbershopCase + "]");
+    while ( scanner.hasNext() ) {
+			int category = scanner.nextInt();
+			int cutHairTime = scanner.nextInt();
 
+			Customer customer = new Customer(barbershop);
+			customer.setCategory(category);
+			customer.setCutHairTime(cutHairTime);
+			customer.setId(id++);
+    	customers.add(customer);
+		}
+
+    System.out.println("Arguments: [tainhaSleepingTime=" + tainhaSleepingTime + "; barbershopCase=" + barbershopCase + "]");
+
+    Barbershop.setTainhaSleepingTime(tainhaSleepingTime);
+    barbershop.setCustomersList(customers);
     barbershop.start(barbershopCase);
+
+    scanner.close();
   }
 }

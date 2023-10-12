@@ -33,3 +33,12 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+run {
+    if (project.hasProperty('inputFile')) {
+        def inputFile = project.property('inputFile')
+        standardInput = new ByteArrayInputStream(new File(inputFile).text.getBytes())
+    } else {
+        throw new GradleException("Você deve especificar o arquivo de entrada usando -PinputFile=<nome_do_arquivo>")
+    }
+}

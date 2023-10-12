@@ -30,6 +30,8 @@ public class Barbershop {
 
 	public char barbershopCase; /** Test case for the barbershop */
 
+  private List<Customer> customersList; /** Customer List */
+
 	public Barbershop() {
 		customerThreadList = new ArrayList<>();
 		barberThreadList = new ArrayList<>();
@@ -42,6 +44,18 @@ public class Barbershop {
 		this.barbershopCase = barbershopCase;
 	}
 
+  public void setCustomersList(List<Customer> customersList) {
+    this.customersList = customersList;
+  }
+
+  public static void setTainhaSleepingTime(int tainhaSleepingTime) {
+    Barbershop.tainhaSleepingTime = tainhaSleepingTime;
+  }
+
+  public static int getTainhaSleepingTime() {
+    return tainhaSleepingTime;
+  }
+
 	public char getBarbershopCase() {
 		return barbershopCase;
 	}
@@ -53,6 +67,10 @@ public class Barbershop {
 	public List<Thread> getCustomerThreadList() {
 		return customerThreadList;
 	}
+
+  public List<Customer> getCustomersList() {
+    return customersList;
+  }
 
   public void start(BarbershopCase barbershopCase) {
     System.out.printf("\n*************************************\n");   

@@ -26,4 +26,14 @@ clean:
 	@echo "Cleaning the project..."
 	$(GRADLEW) clean
 
-.PHONY: run build clean
+# run with custom input file
+run-with-input:
+ifneq ($(ARGS),)
+	@echo "Running the project with arguments: $(ARGS)"
+	$(GRADLEW) run -PinputFile=$(INPUT_FILE) --args="$(ARGS)"
+else
+	@echo "Running the project without arguments..."
+	$(GRADLEW) run -PinputFile=$(INPUT_FILE)
+endif
+
+.PHONY: run build clean run-with-input

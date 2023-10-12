@@ -6,10 +6,7 @@ import java.time.Instant;
 public class Customer implements Runnable {
 
   public static enum CustomerCategory {
-    PAUSE,      
-    OFFICER,  
-    SERGEANT, 
-    CORPORAL  
+    PAUSE, OFFICER, SERGEANT, CORPORAL  
   }
 
 	private CustomerCategory cutomerCategory;
