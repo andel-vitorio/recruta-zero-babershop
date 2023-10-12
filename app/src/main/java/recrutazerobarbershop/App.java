@@ -4,12 +4,13 @@
 package recrutazerobarbershop;
 
 import recrutazerobarbershop.entities.Barbershop;
+import recrutazerobarbershop.entities.Barbershop.BarbershopCase;
 
 public class App {
   
     static Barbershop barbershop = new Barbershop();
-    
+
     public static void main(String[] args) {
-      barbershop.start();
+      barbershop.start(BarbershopCase.C);
     }
 }

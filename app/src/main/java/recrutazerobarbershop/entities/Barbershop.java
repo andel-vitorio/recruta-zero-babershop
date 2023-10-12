@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+
 public class Barbershop {
+  
+  public static enum BarbershopCase { A, B, C }
+
 	public static final int CHAIRS_AMOUNT = 5; /** Total number of chairs in the barbershop */
 
 	private List<Thread> customerThreadList; /** List of client threads */
@@ -50,9 +54,29 @@ public class Barbershop {
 		return customerThreadList;
 	}
 
-  public void start() {
+  public void start(BarbershopCase barbershopCase) {
     System.out.printf("*************************************\n");   
     System.out.printf("*          Open Barbershop          *\n");
     System.out.printf("*************************************\n");
+
+    switch ( barbershopCase ) {
+      case A: { barberAmount = 1; break; }      
+      case B: { barberAmount = 2; break; }
+      case C: { barberAmount = 3; break; }
+    }
+
+    for (int i = 0; i < barberAmount; i++) {
+			Barber barber = new Barber(BarbersTag.values()[i], this);
+			Thread t = new Thread(barber);
+			barberThreadList.add(t);
+
+			t.start();
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
   }
 }
