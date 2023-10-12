@@ -3,12 +3,13 @@
  */
 package recrutazerobarbershop;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import recrutazerobarbershop.entities.Barbershop;
 
+public class App {
+  
+    static Barbershop barbershop = new Barbershop();
+    
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+      barbershop.start();
     }
 }
