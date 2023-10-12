@@ -7,10 +7,42 @@ import recrutazerobarbershop.entities.Barbershop;
 import recrutazerobarbershop.entities.Barbershop.BarbershopCase;
 
 public class App {
-  
-    static Barbershop barbershop = new Barbershop();
 
-    public static void main(String[] args) {
-      barbershop.start(BarbershopCase.C);
+  static Barbershop barbershop = new Barbershop();
+  static BarbershopCase barbershopCase = BarbershopCase.A;
+
+  public static void main(String[] args) {
+
+    int time = 0;
+
+    for ( int i = 0; i < args.length; i++ ) {
+      if (args[i].equals("--time")) {
+        if ( i + 1 < args.length ) {
+          try {
+            time = Integer.parseInt(args[i + 1]);
+            i++;
+          } catch (NumberFormatException e) {
+            System.err.println("Error: The value of --time is not an integer.");
+          }
+        } else {
+          System.err.println("Error: The --time option requires an integer value.");
+        }
+      } else if (args[i].equals("--barbershopCase")) {
+        if (i + 1 < args.length) {
+          switch( args[i + 1] ) {
+            case "A": { barbershopCase = BarbershopCase.A; break; }
+            case "B": { barbershopCase = BarbershopCase.B; break; }
+            case "C": { barbershopCase = BarbershopCase.C; break; }
+          }
+          i++; 
+        } else {
+          System.err.println("Error: The --barbershopCase option requires a value.");
+        }
+      }
     }
+
+    System.out.println("Arguments: [time=" + time + "; barbershopCase=" + barbershopCase + "]");
+
+    barbershop.start(barbershopCase);
+  }
 }
