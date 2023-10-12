@@ -55,7 +55,7 @@ public class Barbershop {
 	}
 
   public void start(BarbershopCase barbershopCase) {
-    System.out.printf("*************************************\n");   
+    System.out.printf("\n*************************************\n");   
     System.out.printf("*          Open Barbershop          *\n");
     System.out.printf("*************************************\n");
 
@@ -78,5 +78,8 @@ public class Barbershop {
 				e.printStackTrace();
 			}
 		}
+
+    Thread tainhaThread = new Thread(new Tainha(this));
+    tainhaThread.start();
   }
 }
