@@ -34,7 +34,7 @@ public class Barbershop {
 	public int corporalAmount = 0; /** Customer counter for the "Corporal" category */
 	public int breakAmount = 0; /** Paused customer amount*/
 
-	public char barbershopCase; /** Test case for the barbershop */
+	public BarbershopCase barbershopCase; /** Test case for the barbershop */
 
   private List<Customer> customersList; /** Customer List */
 
@@ -44,10 +44,6 @@ public class Barbershop {
 		customersSemaphore = new Semaphore(0, true);
 		barbersSemaphore = new Semaphore(0, true);
 		mutex = new Semaphore(1, true);
-	}
-
-	public void setBarbershopCase(char barbershopCase) {
-		this.barbershopCase = barbershopCase;
 	}
 
   public void setCustomersList(List<Customer> customersList) {
@@ -62,7 +58,7 @@ public class Barbershop {
     return tainhaSleepingTime;
   }
 
-	public char getBarbershopCase() {
+	public BarbershopCase getBarbershopCase() {
 		return barbershopCase;
 	}
 
@@ -78,10 +74,17 @@ public class Barbershop {
     return customersList;
   }
 
+  public boolean allQueuesEmpty() {
+		return officerQueue.isEmpty() && sergeantQueue.isEmpty()
+				&& corporalQueue.isEmpty();
+	}
+
   public void start(BarbershopCase barbershopCase) {
     System.out.printf("\n*************************************\n");   
     System.out.printf("*          Open Barbershop          *\n");
     System.out.printf("*************************************\n");
+
+    this.barbershopCase = barbershopCase;
 
     switch ( barbershopCase ) {
       case A: { barberAmount = 1; break; }      
@@ -105,5 +108,25 @@ public class Barbershop {
 
     Thread tainhaThread = new Thread(new Tainha(this));
     tainhaThread.start();
+
+    try {
+			tainhaThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		for (Thread customerThread : customerThreadList) {
+			try {
+				customerThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		for (Thread barberThread : barberThreadList) {
+			barberThread.interrupt();
+		}
+
+		barberShopIsClosed = true;
   }
 }
